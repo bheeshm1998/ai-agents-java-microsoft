@@ -8,35 +8,37 @@
     <div class="content-container">
       <!-- Left Container: Text Input -->
       <div class="editor-container">
-        <form [formGroup]="textForm">
-          <!-- New Input Fields -->
-          <div class="input-fields">
-            <div class="form-group">
-              <label for="numberOfScenes">Number of Scenes</label>
-              <input 
-                type="number" 
-                id="numberOfScenes" 
-                formControlName="numberOfScenes" 
-                placeholder="Enter number of scenes"
-              />
-            </div>
-            <div class="form-group">
-              <label for="imageIllustrationStyle">Image Illustration Style</label>
-              <input 
-                type="text" 
-                id="imageIllustrationStyle" 
-                formControlName="imageIllustrationStyle" 
-                placeholder="Enter illustration style"
-              />
-            </div>
+        <form [formGroup]="textForm" class="form-container">
+          <div class="form-group">
+            <label for="numberOfScenes">Number of Scenes</label>
+            <input 
+              type="number" 
+              id="numberOfScenes" 
+              formControlName="numberOfScenes" 
+              placeholder="Enter number of scenes"
+              class="form-control"
+            />
           </div>
-
-          <!-- Textarea for Story Input -->
-          <textarea 
-            formControlName="inputText" 
-            placeholder="Enter your text here (up to 5000 words)..."
-            [class.disabled]="isLoading"
-          ></textarea>
+          <div class="form-group">
+            <label for="imageIllustrationStyle">Image Illustration Style</label>
+            <input 
+              type="text" 
+              id="imageIllustrationStyle" 
+              formControlName="imageIllustrationStyle" 
+              placeholder="Enter illustration style"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="inputText">Story Input</label>
+            <textarea 
+              id="inputText"
+              formControlName="inputText" 
+              placeholder="Enter your text here (up to 5000 words)..."
+              [class.disabled]="isLoading"
+              class="form-control"
+            ></textarea>
+          </div>
         </form>
       </div>
 
@@ -70,13 +72,6 @@
       >
         Download as Markdown
       </button>
-      <!-- <button 
-        class="btn-secondary" 
-        [disabled]="!hasGenerated || isLoading" 
-        (click)="downloadAsPDF()"
-      >
-        Download as PDF
-      </button> -->
       <button 
         class="btn-clear" 
         (click)="testAPI()"
