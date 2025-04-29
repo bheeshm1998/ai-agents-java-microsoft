@@ -11,7 +11,8 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
-    environment: prod
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
