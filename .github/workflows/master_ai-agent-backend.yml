@@ -1,0 +1,64 @@
+name: Build and deploy JAR app to Azure Web App - AI-Agent-Backend
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+    environment: prod
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+
+      - name: Build with Maven
+        run: mvn clean install
+        working-directory: azure-ai-java
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: azure-ai-java/target/*.jar
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'prod'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3272111D9D314D3CB826E9F90DB33999 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4B254A88564D435CB0D38E58DAE663CB }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7E254AA82942470A879E2F4C3768C2AA }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'AI-Agent-Backend'
+          slot-name: 'Production'
+          package: '*.jar'
