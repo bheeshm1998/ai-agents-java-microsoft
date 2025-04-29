@@ -5,20 +5,26 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.time.Duration;
 
 @Configuration
 public class AzureOpenAiConfig {
 
-    @Value("${openai.api.key}")
-    private String openaiApiKey;
+    static Dotenv dotenv = Dotenv.load();
 
-    @Value("${azure.openai.chat.api.key}")
-    private String azureOepnaiChatApiKey;
+    //    @Value("${openai.api.key}")
+    private String openaiApiKey = dotenv.get("OPENAI_API_KEY");
 
-    @Value("${azure.openai.dalle.api.key}")
-    private String azureOepnaiDalleApiKey;
+
+    //    @Value("${azure.openai.chat.api.key}")
+    private String azureOepnaiChatApiKey = dotenv.get("AZURE_OPENAI_CHAT_API_KEY");
+
+
+    //    @Value("${azure.openai.dalle.api.key}")
+    private String azureOepnaiDalleApiKey = dotenv.get("AZURE_OPENAI_DALLE_API_KEY");
+
 
     @Bean
     public ChatLanguageModel chatLanguageModel() {
