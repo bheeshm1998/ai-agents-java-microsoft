@@ -28,7 +28,7 @@ public class MarkdownExample {
         StoryImageMarkdownAgent markdownAgent = new StoryImageMarkdownAgent(chatLanguageModel);
 
         String storyText = "Thank You, Ma'am (by Langston Hughes)\n" +
-                " She was a large woman with a large purse that had everything in it but hammer and nails. It had a\n" +
+                " She was a large woman with a  large purse that had everything in it but hammer and nails. It had a\n" +
                 " long strap, and she carried it slung across her shoulder. It was about eleven o’clock at night, and she\n" +
                 " was walking alone, when a boy ran up behind her and tried to snatch her purse. The strap broke\n" +
                 " with the single tug the boy gave it from behind. But the boy’s weight and the weight of the purse\n" +
