@@ -23,13 +23,13 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-        working-directory: ai_azure_java
+        working-directory: azure_ai_java
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: ai_azure_java/target/*.jar
+          path: azure_ai_java/target/*.jar
 
   deploy:
     runs-on: windows-latest
