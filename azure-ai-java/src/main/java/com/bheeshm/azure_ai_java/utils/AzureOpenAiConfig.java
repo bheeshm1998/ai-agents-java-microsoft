@@ -12,10 +12,12 @@ import java.time.Duration;
 @Configuration
 public class AzureOpenAiConfig {
 
-    static Dotenv dotenv = Dotenv.load();
+    static Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMissing() // avoids crashing in CI
+            .load();;
 
     //    @Value("${openai.api.key}")
-    private String openaiApiKey = dotenv.get("OPENAI_API_KEY");
+    private String openaiApiKey = dotenv.get("OPENAI_API_KEY", System.getenv("OPENAI_API_KEY"));
 
 
     //    @Value("${azure.openai.chat.api.key}")
