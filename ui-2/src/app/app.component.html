@@ -1,0 +1,92 @@
+<div class="app-container">
+  <header>
+    <h1>Story Illustrator</h1>
+    <p>Enter your story and get it illustrated.</p>
+  </header>
+
+  <main>
+    <div class="content-container">
+      <!-- Left Container: Text Input -->
+      <div class="editor-container">
+        <form [formGroup]="textForm">
+          <!-- New Input Fields -->
+          <div class="input-fields">
+            <div class="form-group">
+              <label for="numberOfScenes">Number of Scenes</label>
+              <input 
+                type="number" 
+                id="numberOfScenes" 
+                formControlName="numberOfScenes" 
+                placeholder="Enter number of scenes"
+              />
+            </div>
+            <div class="form-group">
+              <label for="imageIllustrationStyle">Image Illustration Style</label>
+              <input 
+                type="text" 
+                id="imageIllustrationStyle" 
+                formControlName="imageIllustrationStyle" 
+                placeholder="Enter illustration style"
+              />
+            </div>
+          </div>
+
+          <!-- Textarea for Story Input -->
+          <textarea 
+            formControlName="inputText" 
+            placeholder="Enter your text here (up to 5000 words)..."
+            [class.disabled]="isLoading"
+          ></textarea>
+        </form>
+      </div>
+
+      <!-- Right Container: Markdown Output -->
+      <div class="preview-container">
+        <div class="preview-header">
+          <h2>Preview</h2>
+        </div>
+        <div class="markdown-output" #markdownContainer>
+          <div *ngIf="!hasGenerated && !isLoading" class="placeholder">
+            <p>The illustrated story will appear in markdown format here</p>
+          </div>
+          <div *ngIf="isLoading" class="loading-placeholder">
+            <div class="loading-animation"></div>
+            <p>Working on it. Please wait...</p>
+          </div>
+          <div *ngIf="hasGenerated" [innerHTML]="htmlOutput" class="markdown-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button 
+        (click)="generateMarkdown()"
+      >
+        Generate
+      </button>
+      <button 
+        class="btn-secondary" 
+        (click)="downloadAsMarkdown()"
+      >
+        Download as Markdown
+      </button>
+      <!-- <button 
+        class="btn-secondary" 
+        [disabled]="!hasGenerated || isLoading" 
+        (click)="downloadAsPDF()"
+      >
+        Download as PDF
+      </button> -->
+      <button 
+        class="btn-clear" 
+        (click)="testAPI()"
+      >
+        Test
+      </button>
+    </div>
+    
+    <div *ngIf="apiError" class="error-message">
+      {{ apiError }}
+    </div>
+  </main>
+</div>
