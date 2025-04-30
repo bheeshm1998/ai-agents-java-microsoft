@@ -48,14 +48,14 @@
           <p>Preview</p>
         </div>
         <div class="markdown-output" #markdownContainer>
-          <div *ngIf="hasGenerated && !isLoading" class="placeholder">
-            <p>The illustrated story will appear in markdown format here</p>
+          <div *ngIf="!hasGenerated && !isLoading" class="placeholder">
+            <p>The illustrated story will appear in markdown format here. It may take around 1 minute...</p>
           </div>
           <div *ngIf="isLoading" class="loading-placeholder">
             <div class="loading-animation"></div>
             <p>Working on it. Please wait...</p>
           </div>
-          <div *ngIf="!hasGenerated" [innerHTML]="htmlOutput" class="markdown-content"></div>
+          <div *ngIf="hasGenerated" [innerHTML]="htmlOutput" class="markdown-content"></div>
         </div>
       </div>
     </div>
