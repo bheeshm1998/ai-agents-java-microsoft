@@ -285,8 +285,8 @@ export class AppComponent implements OnInit {
   hasGenerated: boolean = false;
   apiError: string | null = null;
 
-  baseURL: string = 'http://localhost:8080/api/v1/story'; // Replace with your actual API endpoint
-//  baseURL: string = "https://azure-ai-backend-aqebbxbrexeeb4a6.centralindia-01.azurewebsites.net/api/v1/story"
+  // baseURL: string = 'http://localhost:8080/api/v1/story'; // Replace with your actual API endpoint
+ baseURL: string = "https://azure-ai-backend-aqebbxbrexeeb4a6.centralindia-01.azurewebsites.net/api/v1/story"
   
 @ViewChild('markdownContainer') markdownContainer!: ElementRef;
 
