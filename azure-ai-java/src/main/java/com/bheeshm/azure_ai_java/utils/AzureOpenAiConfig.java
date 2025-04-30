@@ -16,16 +16,19 @@ public class AzureOpenAiConfig {
             .ignoreIfMissing() // avoids crashing in CI
             .load();;
 
-    //    @Value("${openai.api.key}")
-    private String openaiApiKey = dotenv.get("OPENAI_API_KEY", System.getenv("OPENAI_API_KEY"));
+        @Value("${openai.api.key}")
+        private String openaiApiKey;
+//    private String openaiApiKey = dotenv.get("OPENAI_API_KEY", System.getenv("OPENAI_API_KEY"));
 
 
-    //    @Value("${azure.openai.chat.api.key}")
-    private String azureOepnaiChatApiKey = dotenv.get("AZURE_OPENAI_CHAT_API_KEY");
+//        @Value("${azure.openai.chat.api.key}")
+    private String azureOpenaiChatApiKey;
+//    private String azureOepnaiChatApiKey = dotenv.get("AZURE_OPENAI_CHAT_API_KEY");
 
 
-    //    @Value("${azure.openai.dalle.api.key}")
-    private String azureOepnaiDalleApiKey = dotenv.get("AZURE_OPENAI_DALLE_API_KEY");
+//        @Value("${azure.openai.dalle.api.key}")
+    private String azureOpenaiDalleApiKey;
+//    private String azureOpenaiDalleApiKey = dotenv.get("AZURE_OPENAI_DALLE_API_KEY");
 
 
     @Bean
