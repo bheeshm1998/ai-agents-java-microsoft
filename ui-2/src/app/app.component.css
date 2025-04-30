@@ -1,7 +1,7 @@
 /* General Layout */
 .app-container {
   font-family: Arial, sans-serif;
-  padding: 20px;
+
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -12,8 +12,10 @@ header {
 }
 
 header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.2rem;
+  font-family: 'Borel', cursive;
+  margin-top: 1.2rem;
 }
 
 header p {
@@ -47,11 +49,16 @@ header p {
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  overflow: hidden; /* Contain all content */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Or set a fixed height if needed */
 }
 
-.preview-header h2 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
+.preview-header p {
+  margin-bottom: 0px;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 /* Form Styling */
@@ -75,6 +82,13 @@ form {
   margin-bottom: 0.5rem;
 }
 
+.story-input {
+  height: 100%;
+}
+
+.story-input textarea {
+  height: calc(100% - 204px);
+}
 input[type="number"],
 input[type="text"],
 textarea {
@@ -104,12 +118,32 @@ textarea.disabled {
   border-radius: 4px;
   min-height: 200px;
   background-color: #f9f9f9;
-  height: calc(100% - 60px);
+  height: calc(100% - 24px);
+
+  flex: 1; /* Take up remaining space */
+  overflow: auto; /* Add scrollbars when needed */
+  padding: 10px; /* Add some padding */
 }
+
+.markdown-content {
+  /* max-width: 100%; Prevent horizontal overflow */
+  overflow-wrap: break-word; /* Break long words */
+  word-break: break-word; /* Alternative for better support */
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+}
+
 
 .placeholder {
   color: #888;
   text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading-placeholder {
@@ -141,6 +175,7 @@ textarea.disabled {
   margin-top: 20px;
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 
 button {
@@ -162,6 +197,11 @@ button:disabled {
 
 .btn-secondary {
   background-color: #007bff;
+  color: #fff;
+}
+
+.btn-success {
+  background-color: #00390e;
   color: #fff;
 }
 
