@@ -20,7 +20,7 @@ public class MarkdownExample {
 
         ChatLanguageModel chatLanguageModel = OpenAiChatModel.builder()
                 .apiKey(openaiApiKey)
-                .modelName("gpt-4o-mini")
+                .modelName("gpt-4o")
                 .temperature(0.1)
                 .timeout(Duration.ofSeconds(120))
                 .build();
@@ -131,7 +131,7 @@ public class MarkdownExample {
 
         String caption = "Lady standing with a purse";
 
-        String markdownText = markdownAgent.process(storyText, new ArrayList<>());
-        System.out.println(markdownText);
+//        String markdownText = markdownAgent.process(storyText, new ArrayList<>());
+//        System.out.println(markdownText);
     }
 }

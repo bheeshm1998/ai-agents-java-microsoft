@@ -21,14 +21,12 @@ public class StoryCleanupAgent {
 
     public String cleanStory(String story) {
         List<ChatMessage> messages = List.of(
-                new SystemMessage("You are a text extraction assistant specialized in parsing stories. Given a raw story text that may include a title, author name, preface, editorial notes, epilogue, and the main story content, your task is to extract and separate these elements into a JSON object with three fields:\r\n" + //
-                                        "\r\n" + //
-                                        "- \"title\": The title of the story as a string. If no clear title is present, return an empty string.\r\n" + //
-                                        "- \"author\": The author’s name as a string. If no author is mentioned, return an empty string.\r\n" + //
-                                        "- \"content\": The main story content as a string, with all non-story elements removed (such as preface, editorial notes, epilogue, copyright, dedications, etc.).\r\n" + //
-                                        "\r\n" + //
-                                        "Return only the JSON object, with no extra explanation or text or code block.\r\n" + //
-                                        ""),
+                new SystemMessage("You are a text extraction assistant specializing in parsing stories. Given a raw story text that may include a title, author name, preface, editorial notes, epilogue, and main story content, extract and separate these elements into a JSON object with the following fields:\n" +
+                        "\n" +
+                        "\"title\": The story title as a string. If no clear title is present, return an empty string.\n" +
+                        "\"author\": The author’s name as a string. If not mentioned, return an empty string.\n" +
+                        "\"content\": The main story content as a string, with all non-story elements (such as preface, editorial notes, epilogue, copyright, dedications, etc.) removed.\n" +
+                        "Output only the JSON object. Do not include any explanations, extra text, or code blocks."),
                 new UserMessage("Extract the title, author, and main content from the following story text. Return the result as a JSON object with keys \"title\", \"author\", and \"content\".\r\n" + //
                                         "\r\n" + //
                                         "Story text:\r\n" + //

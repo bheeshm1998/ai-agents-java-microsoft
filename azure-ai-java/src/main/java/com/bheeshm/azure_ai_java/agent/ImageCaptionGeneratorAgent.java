@@ -17,8 +17,8 @@ public class ImageCaptionGeneratorAgent {
 
     public String process(String sceneDescription) {
         List<ChatMessage> messages = List.of(
-                new SystemMessage("You are a helpful assistant that generates image captions. The image is described using text"),
-                new UserMessage("Generate a caption for the following image description:\n" + sceneDescription)
+                new SystemMessage("You are a helpful assistant skilled at generating image captions. You will be given a textual description of an image; write a clear and concise caption that accurately reflects the content."),
+                new UserMessage("Using the description below, generate a caption that best captures the main subject and action of the image:\n" + sceneDescription)
         );
         String response = model.chat(messages).aiMessage().text();
         return response;

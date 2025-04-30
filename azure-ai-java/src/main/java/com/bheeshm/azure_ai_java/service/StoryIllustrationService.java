@@ -4,6 +4,7 @@ import com.bheeshm.azure_ai_java.agent.*;
 import com.bheeshm.azure_ai_java.model.*;
 import com.bheeshm.azure_ai_java.model.Character;
 import com.bheeshm.azure_ai_java.utils.DalleImageGenerator;
+import com.bheeshm.azure_ai_java.utils.RandomUtils;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import dev.langchain4j.model.azure.AzureOpenAiStreamingChatModel;
 import dev.langchain4j.model.chat.ChatLanguageModel;
@@ -54,7 +55,7 @@ public class StoryIllustrationService {
         CharacterExtractionAgent characterExtractionAgent = new CharacterExtractionAgent(chatLanguageModel);
         EventExtractionAgent eventExtractionAgent = new EventExtractionAgent(chatLanguageModel);
         CharacterFeatureAgent characterFeatureAgent = new CharacterFeatureAgent(chatLanguageModel);
-        CharacterEventMappingAgent characterEventMappingAgent = new CharacterEventMappingAgent(chatLanguageModel);
+        CharacterFeatureAgent2 characterFeatureAgent2 = new CharacterFeatureAgent2(chatLanguageModel);
         StoryImageMarkdownAgent storyImageMarkdownAgent = new StoryImageMarkdownAgent(chatLanguageModel);
         SummarizerAgent summarizerAgent = new SummarizerAgent(chatLanguageModel);
 
@@ -76,12 +77,12 @@ public class StoryIllustrationService {
             e.printStackTrace();
         }
 
-        try {
-            System.out.println("Waiting for 10 seconds before the next LLM call");
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            System.out.println("Waiting for 10 seconds before the next LLM call");
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
         List<String> characters = new ArrayList<>();
         try {
@@ -95,12 +96,12 @@ public class StoryIllustrationService {
             e.printStackTrace();
         }
 
-        try {
-            System.out.println("Waiting for 10 seconds before the next LLM call");
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            System.out.println("Waiting for 10 seconds before the next LLM call");
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
          List<Scene> scenes = new ArrayList<>();
         try {
@@ -114,31 +115,33 @@ public class StoryIllustrationService {
             e.printStackTrace();
         }
 
-        try {
-            System.out.println("Waiting for 10 seconds before the next LLM call");
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            System.out.println("Waiting for 10 seconds before the next LLM call");
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
          List<Character> characterFeatures = new ArrayList<>();
         try {
-            String charactersFeaturesText = cleanJsonResponse(characterFeatureAgent.process(cleanedStory.getContent(), characters));
+            String charactersFeaturesText = cleanJsonResponse(characterFeatureAgent2.process(cleanedStory.getContent(), characters));
             characterFeatures = objectMapper.readValue(charactersFeaturesText, new TypeReference<List<Character>>() {});
+            PhysicalFeatures2.fillMissingFields(characterFeatures);
         } catch (JsonMappingException e) {
             System.out.println("Error mapping JSON to List<Character>: " + e.getMessage());
             e.printStackTrace();
         } catch (JsonProcessingException e) {
             System.out.println("[ characterFeatureAgent ] Error processing JSON: " + e.getMessage());
             e.printStackTrace();
+
         }
 
-        try {
-            System.out.println("Waiting for 10 seconds before the next LLM call");
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            System.out.println("Waiting for 10 seconds before the next LLM call");
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
         Map<String, Character> characterMap = new HashMap<>();
         characterFeatures.forEach(character -> characterMap.put(character.getName(), character));
@@ -147,28 +150,39 @@ public class StoryIllustrationService {
         System.out.println("number of total scenes for which image needs to be generated " + scenes.size());
         for (Scene scene : scenes) {
             System.out.println("Generating image for scene " + scene.getSceneName());
-            List<String> charactersInvolved = scene.getCharactersInvolved(); // Assuming List<Character> not just names
+            List<String> charactersInvolved = scene.getCharactersInvolved();
+
             StringBuilder promptBuilder = new StringBuilder();
 
             // Start with the scene description
+            promptBuilder.append("A scene involving ").append(charactersInvolved.size());
+            if(charactersInvolved.size() == 1){
+                promptBuilder.append("character");
+            } else{
+                promptBuilder.append("characters");
+            }
+            promptBuilder.append("\n\nScene description: ");
             promptBuilder.append(scene.getSceneDescription()).append(".\n\n");
+            promptBuilder.append("The characters are described below: ").append("\n");
 
             // Add character details
             for (String characterName : charactersInvolved) {
-                promptBuilder.append(characterName).append(": ").append(buildCharacterDescription(characterMap.get(characterName))).append("\n");
+//                promptBuilder.append(characterName).append(": ").append(buildCharacterDescription(characterMap.get(characterName))).append("\n");
+                promptBuilder.append(characterName).append(": ").append(characterMap.get(characterName).getPhysicalFeatures().generateDescription()).append("\n");
+                promptBuilder.append("\n");
             }
 
             // Add some basic scene setting (optional, customize if you have metadata)
             promptBuilder.append("\nScene setting: ").append(scene.getSceneSetting());
 
-            promptBuilder.append(". Art style: ").append(artStyle);
+            promptBuilder.append(".\nArt style: ").append(artStyle);
 
             String imagePrompt = promptBuilder.toString();
 
             try {
-                Thread.sleep(10000);
+//                Thread.sleep(10000);
                 String refinedImagePrompt = summarizerAgent.process(imagePrompt);
-                Thread.sleep(10000);
+//                Thread.sleep(10000);
                 System.out.println("the refined prompt is " + refinedImagePrompt);
                 String imageUrl = imageGenerator.generateImage(refinedImagePrompt);
                 eventImages.put(scene.getSceneName(), imageUrl);
@@ -182,7 +196,7 @@ public class StoryIllustrationService {
         List<Image> imagesList = new ArrayList<>();
         eventImages.forEach((imageCaption, imageUrl) -> imagesList.add(new Image( imageUrl, imageCaption)));
 
-        String markdownText = storyImageMarkdownAgent.process(cleanedStory.getContent(), imagesList);
+        String markdownText = storyImageMarkdownAgent.process(cleanedStory.getTitle(), cleanedStory.getAuthor(), cleanedStory.getContent(), imagesList);
 
         String currentDateTimestamp = new Date().toString();
         String markdownFilePathWithSpaces = cleanedStory.getTitle() + "_" + cleanedStory.getAuthor()+ currentDateTimestamp ;
@@ -194,25 +208,6 @@ public class StoryIllustrationService {
             System.out.println("Error occurred when saving the markdown file" + e.getMessage());
         }
         System.out.println("Markdowwn file saved successfully");
-//        String pdfFilePathWithSpaces = cleanedStory.getTitle() + "_" + cleanedStory.getAuthor()+ currentDateTimestamp;
-//        String finalPdfFilePath = pdfFilePathWithSpaces.replaceAll("[\\s\\W]+", "_") + ".pdf";
-//        try{
-//            convertMarkdownToPdf(finalMarkdownFilePath, finalPdfFilePath);
-//        } catch (Exception e) {
-//            System.out.println("Error occurred when saving the pdf file" + e.getMessage());
-//        }
-
-
-
-        // Prepare the response
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("cleanedStory", cleanedStory);
-//        response.put("characters", characters);
-//         response.put("scenes", scenes);
-//         response.put("characterFeatures", characterFeatures);
-//         response.put("eventImages", eventImages);
-
-//        return response;
 
         return markdownText;
     }
@@ -235,7 +230,7 @@ public class StoryIllustrationService {
 
     private String buildCharacterDescription(Character character) {
         if(character == null) return "";
-        PhysicalFeatures pf = character.getPhysicalFeatures();
+        PhysicalFeatures2 pf = character.getPhysicalFeatures();
         return String.format(
                 "A %s %s %s with %s %s %s hair, %s skin, %s eyes, %s lips, and a %s face.",
                 safeToString(pf.getHeight(), "average height"),
@@ -302,4 +297,5 @@ public class StoryIllustrationService {
         // Otherwise return the original string
         return jsonResponse.trim();
     }
+
 }

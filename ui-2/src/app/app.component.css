@@ -212,7 +212,9 @@ button:disabled {
 
 /* Error Message */
 .error-message {
-  color: red;
+  color: rgb(247, 95, 95);
   margin-top: 10px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
 }

@@ -38,11 +38,11 @@ public class AzureOpenAiConfig {
         }
 
         // For debugging (don't log full key in production)
-        System.out.println("API key detected (first 5 chars): " + openaiApiKey.substring(0, Math.min(5, openaiApiKey.length())));
+//        System.out.println("API key detected (first 5 chars): " + openaiApiKey.substring(0, Math.min(5, openaiApiKey.length())));
 
         return OpenAiChatModel.builder()
                 .apiKey(openaiApiKey)
-                .modelName("gpt-4o-mini")
+                .modelName("gpt-4.1")
                 .temperature(0.5)
                 .timeout(Duration.ofSeconds(120))
                 .build();

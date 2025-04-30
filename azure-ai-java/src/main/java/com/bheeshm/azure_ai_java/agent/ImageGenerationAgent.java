@@ -7,7 +7,7 @@ public class ImageGenerationAgent {
     private final DalleImageGenerator dalleImageGenerator;
 
     public ImageGenerationAgent(String endpoint, String apiKey) {
-        this.dalleImageGenerator = new DalleImageGenerator(endpoint, apiKey);
+        this.dalleImageGenerator = new DalleImageGenerator(apiKey, endpoint);
     }
 
     public String generateImage(String eventDescription) {

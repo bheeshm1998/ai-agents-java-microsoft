@@ -12,7 +12,9 @@ public class Character {
 
     String name;
 
-    PhysicalFeatures physicalFeatures;
+    // PhysicalFeatures physicalFeatures;
+
+    PhysicalFeatures2 physicalFeatures;
 
 }
 

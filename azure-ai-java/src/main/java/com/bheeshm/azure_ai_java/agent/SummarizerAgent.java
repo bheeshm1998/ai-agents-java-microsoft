@@ -17,7 +17,7 @@ public class SummarizerAgent {
 
     public String process(String text) {
         List<ChatMessage> messages = List.of(
-                new SystemMessage("You are an expert summarizer of text. Summarize the below description of a scene in such a way that it can be drawn by an artist perfectly. Only include those details in the text which would add value ni the context of an image drawn. Restrict the output to about 900 characters."),
+                new SystemMessage("You are an expert at distilling scene descriptions into effective image prompts for DALL-E. Summarize the following scene, focusing only on visual details essential for generating an accurate image. Exclude unnecessary context, keeping only the elements that add value to the visual prompt. Limit your summary to approximately 3000 characters."),
                 new UserMessage("Scene description: \n" + text)
         );
         return model.chat(messages).aiMessage().text();

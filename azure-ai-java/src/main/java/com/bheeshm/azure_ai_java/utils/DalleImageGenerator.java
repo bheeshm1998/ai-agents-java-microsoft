@@ -28,6 +28,10 @@ public class DalleImageGenerator {
             requestMap.put("prompt", prompt);
             requestMap.put("n", 1);
             requestMap.put("size", "1024x1024");
+            requestMap.put("model", "dall-e-3");
+            requestMap.put("quality", "standard");
+            requestMap.put("response_format", "url");
+//            requestMap.put("output_format", "png");
 
             ObjectMapper mapper = new ObjectMapper();
             String requestBody = mapper.writeValueAsString(requestMap);

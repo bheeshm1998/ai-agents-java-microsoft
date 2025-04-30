@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // allow all paths
-                        .allowedOrigins("*") // allow all origins
+                        .allowedOrigins("https://story-illustrator.netlify.app") // allow all origins
                         .allowedMethods("*") // allow all HTTP methods
                         .allowedHeaders("*"); // allow all headers
             }

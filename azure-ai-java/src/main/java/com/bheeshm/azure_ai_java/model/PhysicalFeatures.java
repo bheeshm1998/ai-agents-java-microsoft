@@ -14,11 +14,11 @@ import lombok.*;
 
     Height height;
 
-    Weight weight;
+    WeightType weightType;
 
     SkinColor skinColor;
 
-    NoseTip noseTip;
+    NoseTipShape noseTip;
 
     FaceShape faceShape;
 
@@ -38,7 +38,47 @@ import lombok.*;
 
     BodyShape bodyShape;
 
+    AgeGroup ageGroup;
+
+    EyebrowShape eyebrowShape;
+
+    Jawline jawline;
+
+    Religion religion;
+
+    Ethinicity ethinicity;
+
+    EarsShape earsShape;
+
+    Mood moodOfTheCharacter;
+
+    String clothesDescription;
+
     String specialCharacterisOfTheCharacter;
+}
+
+enum Mood {
+    HAPPY, SAD, ANGRY, EXCITED, CALM, CONFUSED, SCARED, SURPRISED, NEUTRAL
+}
+
+enum EarsShape {
+    ATTACHED_LOBES, DETACHED_LOBES, POINTY, ROUNDED, PROTRUDING, NOT_INFERRABLE
+}
+
+enum AgeGroup {
+    INFANT, CHILD, TEENAGER, YOUNG_ADULT, ADULT, MIDDLE_AGED, SENIOR, NOT_INFERRABLE
+}
+
+enum Ethinicity {
+    ASIAN, CAUCASIAN, HISPANIC, AFRICAN_AMERICAN, MIDDLE_EASTERN, PACIFIC_ISLANDER, NOT_INFERRABLE
+}
+
+enum Jawline {
+    STRAIGHT, SHARP, ROUND, SQUARE, NOT_INFERRABLE
+}   
+
+enum Religion {
+    HINDU, MUSLIM, CHRISTIAN, SIKH, BUDDHIST, JEWISH, ATHEIST, AGNOSTIC, OTHER, NOT_INFERRABLE
 }
 
 
@@ -113,7 +153,7 @@ enum Race {
     MINIMAL, MODERATE, PRONOUNCED, NOT_INFERRABLE
 }
 
- enum NoseTip {
+ enum NoseTipShape {
     POINTED, ROUNDED, BULBOUS, UPTURNED, DOWNTURNED, NOT_INFERRABLE
 }
 
@@ -168,12 +208,12 @@ enum Race {
     SHORT,  AVERAGE,  TALL, NOT_INFERRABLE
 }
 
- enum Weight {
+ enum WeightType {
     UNDERWEIGHT, LEAN, AVERAGE, ATHLETIC, MUSCULAR, OVERWEIGHT, OBESE, NOT_INFERRABLE
 }
 
  enum BodyShape {
-    ECTOMORPH, MESOMORPH, ENDOMORPH, PEAR_SHAPED, APPLE_SHAPED, HOURGLASS, RECTANGLE, NOT_INFERRABLE
+    ATHLETIC, LEAN, FAT, SKINNY, CHUBBY, NOT_INFERRABLE
 }
 
  enum Posture {

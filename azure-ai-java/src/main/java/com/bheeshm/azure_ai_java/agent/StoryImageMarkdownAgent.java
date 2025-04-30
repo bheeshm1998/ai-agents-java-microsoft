@@ -17,32 +17,31 @@ public class StoryImageMarkdownAgent {
         this.model = model;
     }
 
-    public String process(String storyText, List<Image> images) {
+    public String process(String storyTitle, String author,  String storyContent, List<Image> images) {
 
         String imagesDescription = images.stream()
                 .map(image -> "- Caption: \"" + image.getCaption() + "\", URL: " + image.getUrl())
                 .collect(Collectors.joining("\n"));
 
         List<ChatMessage> messages = List.of(
-                new SystemMessage("new SystemMessage(\"You are an expert Markdown editor.\\n\" +\n" +
-                        "    \"You will be provided with a story text and a list of images with captions and URLs.\\n\\n\" +\n" +
-                        "    \"Your task:\\n\" +\n" +
-                        "    \"- Make some texts bold, italic as you feel appropriate according to the story.\\n\" +\n" +
-                        "    \"- Insert images AFTER the paragraph that matches the caption.\\n\" +\n" +
-                        "    \"- Format the story beautifully using Markdown:\\n\" +\n" +
-                        "    \"  - Use `#` for title\\n\" +\n" +
-                        "    \"  - Use `*` for italic text\\n\" +\n" +
-                        "    \"  - Use `**` for bold text\\n\" +\n" +
-                        "    \"  - Insert images using Markdown syntax like `![caption](url)`\\n\" +\n" +
-                        "    \"- Maintain proper paragraph spacing (double line breaks).\\n\" +\n" +
-                        "    \"- DO NOT wrap the output inside code blocks like ``` or ```markdown.\\n\" +\n" +
-                        "    \"- DO NOT add any extra text like 'Here is your Markdown' or anything else.\\n\" +\n" +
-                        "    \"- Just return the clean formatted text directly.\\n\\n\" +\n" +
-                        "    \"Be neat and careful.\"\n" +
-                        ")\n"),
+                new SystemMessage("You are an expert Markdown editor.\n" +
+                        "\n" +
+                        "You will receive a story title, author, content, and a list of images (with captions and URLs).\n" +
+                        "\n" +
+                        "Your task:\n" +
+                        "\n" +
+                        "Format the story in Markdown: title, author, and content must be clearly and correctly formatted. Do not alter the story content.\n" +
+                        "Add bold or italic emphasis to text where appropriate, based on the story’s context.\n" +
+                        "Insert images at relevant points in the story, using their captions and context to determine placement. Use the Markdown image format: ![caption](url)\n" +
+                        "Ensure proper paragraph spacing (two line breaks between paragraphs).\n" +
+                        "Do not wrap the output in any code blocks (such as ormarkdown).\n" +
+                        "Do not add extra commentary or introductory text—output only the final, clean, formatted Markdown.\n" +
+                        "Be precise, neat, and maintain fidelity to the original story."),
                 new UserMessage("" +
                         "Image details: " + imagesDescription +
-                        "\n\n Story: " + storyText
+                        "\n\n Story title: " + storyTitle +
+                        "\n\n Author: " + author +
+                        "\n\n Content: " + storyContent
                        )
         );
         return model.chat(messages).aiMessage().text();
