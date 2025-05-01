@@ -29,8 +29,8 @@ public class StoryIllustrationController {
 
     @GetMapping("/test")
     public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok()
-                .build();
+        String message = "Hello, World!";
+        return ResponseEntity.ok(message);
     }
 
     @PostMapping("/illustrate")
